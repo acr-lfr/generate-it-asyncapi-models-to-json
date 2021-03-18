@@ -1,0 +1,10 @@
+export const eventModels = {
+{% for path, channel in swagger.channels -%}
+  {% if channel.publish and _.includes(nodegenRc.helpers.publishOpIds, channel.publish.operationId) -%}
+    {{ channel.publish.operationId }}: {{ paramsOutputReducer(channel.publish.message.payload) }}
+  {% endif %}
+  {% if channel.subscribe and _.includes(nodegenRc.helpers.subscribeOpIds, channel.subscribe.operationId) -%}
+    {{ channel.subscribe.operationId }}: {{ paramsOutputReducer(channel.subscribe.message.payload) }}
+  {% endif %}
+{% endfor -%}
+}
