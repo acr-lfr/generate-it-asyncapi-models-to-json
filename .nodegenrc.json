@@ -1,7 +1,7 @@
 {
-  "nodegenDir": "rabbitMQ",
+  "nodegenDir": "event",
   "nodegenMockDir": "/__mocks__",
-  "nodegenType": "server",
+  "nodegenType": "client",
   "helpers": {
     "autoRequeue": false,
     "subscribeOpIds": [],
