@@ -15,10 +15,10 @@ export interface EventModels {
 export const eventModels: EventModels = {
 {% for path, channel in swagger.channels -%}
   {% if channel.publish and _.includes(nodegenRc.helpers.publishOpIds, channel.publish.operationId) -%}
-    {{ channel.publish.operationId }}: mockItGenerator({{ channel.publish.message.payload | dump }}),
+    {{ channel.publish.operationId }}: mockItGenerator({{ channel.publish.message.payload | dump }}, undefined, { maxItems: 1 }),
   {% endif -%}
   {% if channel.subscribe and _.includes(nodegenRc.helpers.subscribeOpIds, channel.subscribe.operationId) -%}
-    {{ channel.subscribe.operationId }}: mockItGenerator({{ channel.subscribe.message.payload | dump }}),
+    {{ channel.subscribe.operationId }}: mockItGenerator({{ channel.subscribe.message.payload | dump }}, undefined, { maxItems: 1 }),
   {% endif -%}
 {% endfor -%}
 }
