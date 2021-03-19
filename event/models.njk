@@ -1,10 +1,24 @@
-export const eventModels = {
+import { mockItGenerator } from 'generate-it-mockers'
+import * as interfaces from './interfaces';
+
+export interface EventModels {
 {% for path, channel in swagger.channels -%}
   {% if channel.publish and _.includes(nodegenRc.helpers.publishOpIds, channel.publish.operationId) -%}
-    {{ channel.publish.operationId }}: {{ paramsOutputReducer(channel.publish.message.payload) }}
-  {% endif %}
+    {{ channel.publish.operationId }}: interfaces.{{ channel.publish['x-response-definitions'] }};
+  {% endif -%}
   {% if channel.subscribe and _.includes(nodegenRc.helpers.subscribeOpIds, channel.subscribe.operationId) -%}
-    {{ channel.subscribe.operationId }}: {{ paramsOutputReducer(channel.subscribe.message.payload) }}
-  {% endif %}
+    {{ channel.subscribe.operationId }}: interfaces.{{ channel.subscribe['x-response-definitions'] }};
+  {% endif -%}
+{% endfor -%}
+}
+
+export const eventModels: EventModels = {
+{% for path, channel in swagger.channels -%}
+  {% if channel.publish and _.includes(nodegenRc.helpers.publishOpIds, channel.publish.operationId) -%}
+    {{ channel.publish.operationId }}: mockItGenerator({{ paramsOutputReducer(channel.publish.message.payload) }}),
+  {% endif -%}
+  {% if channel.subscribe and _.includes(nodegenRc.helpers.subscribeOpIds, channel.subscribe.operationId) -%}
+    {{ channel.subscribe.operationId }}: mockItGenerator({{ paramsOutputReducer(channel.subscribe.message.payload) }}),
+  {% endif -%}
 {% endfor -%}
 }
